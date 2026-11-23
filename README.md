@@ -25,12 +25,18 @@ Fondateur de **LELON**.
 
 ### Projets
 
-| Projet | Description |
-|:--|:--|
-| [**Pollution & Météo**](https://github.com/krm3z/pollution-meteo-data-pipeline) | Pipeline croisant qualité de l’air et données météo. <sub>Python · SQL</sub> |
-| [**SNCF Régularité TER**](https://github.com/krm3z/sncf-regularite-ter) | Analyse de la ponctualité des TER à partir des données ouvertes SNCF. <sub>SQL · Power BI</sub> |
-| [**NASA Data Pipeline**](https://github.com/krm3z/nasa-data-pipeline) | Extraction, structuration et analyse des données ouvertes de la NASA. <sub>Python · SQL</sub> |
-| [**Power4**](https://github.com/krm3z/Power4) | Puissance 4 jouable dans le navigateur. <sub>Go</sub> |
+<img src="visuels/en-bref.svg" width="100%" alt="350 000+ lignes de données traitées, 4 projets publiés, 31,7 M trains TER couverts, 30 ans d’archives NASA" />
+
+<p align="center">
+<a href="https://github.com/krm3z/pollution-meteo-data-pipeline"><img src="visuels/pollution.svg" width="49%" alt="Pollution & Météo" /></a>
+<a href="https://github.com/krm3z/nasa-data-pipeline"><img src="visuels/nasa.svg" width="49%" alt="NASA Data Pipeline" /></a>
+</p>
+<p align="center">
+<a href="https://github.com/krm3z/sncf-regularite-ter"><img src="visuels/sncf.svg" width="49%" alt="SNCF Régularité TER" /></a>
+<a href="https://github.com/krm3z/Power4"><img src="visuels/power4.svg" width="49%" alt="Power4" /></a>
+</p>
+
+<p align="center"><sub>Cliquez sur une carte pour ouvrir le projet.</sub></p>
 
 <br/>
 
