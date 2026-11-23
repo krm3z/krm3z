@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="hero.svg" alt="LELON" width="100%" />
+<img src="banniere.svg" alt="LELON" width="100%" />
 
 <br/>
 
