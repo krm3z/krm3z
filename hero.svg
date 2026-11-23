@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF8F1"/><stop offset="1" stop-color="#FDEFE8"/>
+    </linearGradient>
+    <style>
+      .float{animation:f 7s ease-in-out infinite}
+      .float2{animation:f 9s ease-in-out infinite reverse}
+      .tw{animation:t 3s ease-in-out infinite}
+      @keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+      @keyframes t{0%,100%{opacity:.25}50%{opacity:1}}
+    </style>
+  </defs>
+  <rect width="900" height="340" rx="28" fill="url(#bg)"/>
+  <g class="float"><circle cx="120" cy="90" r="70" fill="#FAD4C0" opacity=".75"/></g>
+  <g class="float2"><circle cx="790" cy="250" r="90" fill="#D8E8D3" opacity=".8"/></g>
+  <g class="float"><circle cx="760" cy="70" r="38" fill="#E4DAF5" opacity=".9"/></g>
+  <g class="float2"><circle cx="170" cy="270" r="30" fill="#FFE7A8" opacity=".9"/></g>
+  <g fill="#E8A598" class="tw">
+    <path d="M300 70l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/>
+    <path d="M640 280l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+  </g>
+  <text x="450" y="185" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="104" letter-spacing="22" fill="#3B3230">LELON</text>
+  <line x1="390" y1="215" x2="510" y2="215" stroke="#E8A598" stroke-width="2" stroke-linecap="round"/>
+  <text x="450" y="252" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="20" fill="#8A7A74">data · design · curiosité</text>
+</svg>
