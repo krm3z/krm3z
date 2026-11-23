@@ -1,13 +1,15 @@
 <div align="center">
 
-<a href="https://krm3z.github.io/krm3z/"><picture><source media="(prefers-color-scheme: dark)" srcset="visuels/banniere-sombre.svg"><img src="visuels/banniere-clair.svg" alt="LELON, je transforme des données brutes en réponses lisibles" width="100%"></picture></a>
+<a href="https://krm3z.github.io/krm3z/"><picture><source media="(prefers-color-scheme: dark)" srcset="visuels/banniere-sombre.svg"><img src="visuels/banniere-clair.svg" alt="LELON. Carte animée de la qualité de l’air en France : 330 stations, 4 jours de mesures" width="100%"></picture></a>
 
 <br/>
 
 **Kerem Uysal**, étudiant en Bachelor IA &amp; Data à Ynov Lyon.<br/>
 Je cherche une **alternance de data analyst** à partir de septembre 2027.
 
-[Explorer mes projets en interactif](https://krm3z.github.io/krm3z/) &nbsp;&nbsp; [LinkedIn](https://www.linkedin.com/in/kerem-uysal-0528823a9) &nbsp;&nbsp; [E-mail](mailto:keremuysal19@icloud.com)
+<a href="https://krm3z.github.io/krm3z/"><picture><source media="(prefers-color-scheme: dark)" srcset="visuels/bouton-demo-sombre.svg"><img src="visuels/bouton-demo-clair.svg" alt="Ouvrir la démo interactive : carte en direct, graphiques, Puissance 4 jouable" width="320"></picture></a>
+
+[LinkedIn](https://www.linkedin.com/in/kerem-uysal-0528823a9) &nbsp;·&nbsp; [E-mail](mailto:keremuysal19@icloud.com)
 
 <br/>
 
@@ -57,6 +59,4 @@ Je cherche une **alternance de data analyst** à partir de septembre 2027.
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="visuels/titre-contact-sombre.svg"><img src="visuels/titre-contact-clair.svg" alt="Contact" width="220"></picture>
-
-Une alternance, un projet ou une question : [keremuysal19@icloud.com](mailto:keremuysal19@icloud.com) ou [LinkedIn](https://www.linkedin.com/in/kerem-uysal-0528823a9).
+<p align="center"><sub>Une alternance, un projet ou une question : <a href="mailto:keremuysal19@icloud.com">keremuysal19@icloud.com</a> ou <a href="https://www.linkedin.com/in/kerem-uysal-0528823a9">LinkedIn</a>.</sub></p>
