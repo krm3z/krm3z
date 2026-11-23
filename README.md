@@ -38,7 +38,7 @@ Fondateur de **LELON**.
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=krm3z&show_icons=true&count_private=true&include_all_commits=true&locale=fr&bg_color=1C1B19&title_color=B89B72&text_color=EDE6DA&icon_color=B89B72&border_color=3A3631&border_radius=10" alt="Statistiques GitHub" />
+<img height="165" src="https://github-readme-stats.vercel.app/api?username=krm3z&show_icons=true&locale=fr&bg_color=1C1B19&title_color=B89B72&text_color=EDE6DA&icon_color=B89B72&border_color=3A3631&border_radius=10" alt="Statistiques GitHub" />
 <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=krm3z&layout=compact&langs_count=6&locale=fr&bg_color=1C1B19&title_color=B89B72&text_color=EDE6DA&icon_color=B89B72&border_color=3A3631&border_radius=10" alt="Langages" />
 
 <img width="100%" src="https://streak-stats.demolab.com?user=krm3z&locale=fr&background=1C1B19&border=3A3631&stroke=3A3631&ring=B89B72&fire=B89B72&currStreakNum=EDE6DA&sideNums=EDE6DA&currStreakLabel=B89B72&sideLabels=8C8273&dates=8C8273&border_radius=10" alt="Régularité" />
