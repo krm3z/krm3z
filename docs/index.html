@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LELON · Kerem Uysal, data analyst</title>
+<meta name="description" content="Projets data de Kerem Uysal : pollution de l'air, régularité des TER, archives de la NASA. Données réelles, graphiques interactifs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1A1917; --raised:#22201D; --rule:#3A3631; --paper:#EDE6DA; --muted:#9A8F80; --brass:#B89B72;
+  --low:#4F6A63; --mid:#B89B72; --high:#C9573F;
+  --display:"Bodoni Moda", Georgia, serif; --text:"Hanken Grotesk", system-ui, sans-serif;
+  --step-0:1rem; --step-1:1.25rem; --step-2:1.6rem; --step-3:2.4rem; --step-4:4.2rem;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--paper);font:400 var(--step-0)/1.55 var(--text);-webkit-font-smoothing:antialiased}
+body{margin:0}
+a{color:var(--paper);text-decoration-color:var(--brass);text-underline-offset:.2em}
+a:hover{color:var(--brass)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.muted{color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;letter-spacing:.01em}
+p{margin:0}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,4rem);align-items:center;padding:clamp(3rem,8vw,6rem) 0 3rem}
+.brand{font-size:clamp(3.2rem,9vw,var(--step-4));letter-spacing:.18em;line-height:1;margin-left:-.04em}
+.lede{font-size:var(--step-1);max-width:30ch;margin-top:1.5rem}
+.who{margin-top:1rem;color:var(--muted);max-width:38ch}
+.links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:2rem}
+figure{margin:0}
+.map-box{position:relative}
+#map{width:100%;height:auto;display:block}
+#map circle{transition:fill .35s ease}
+.tip{position:absolute;pointer-events:none;background:var(--raised);border:1px solid var(--rule);padding:.5rem .7rem;font-size:.85rem;line-height:1.35;border-radius:4px;opacity:0;transform:translate(-50%,calc(-100% - 12px));white-space:nowrap}
+.tip.on{opacity:1}
+.tip strong{font-weight:600}
+.caption{display:flex;justify-content:space-between;gap:1rem;font-size:.85rem;color:var(--muted);margin-top:.75rem}
+.scrub{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;margin-top:1rem}
+.scrub output{font-size:.95rem;min-width:9.5ch;text-align:right}
+button{font:inherit;color:inherit;background:none;border:1px solid var(--rule);border-radius:999px;padding:.4rem .9rem;cursor:pointer}
+button:hover{border-color:var(--brass)}
+button[aria-pressed="true"]{border-color:var(--brass);color:var(--brass)}
+input[type=range]{width:100%;accent-color:var(--brass)}
+.legend{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--muted)}
+.legend i{display:block;width:96px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--low),var(--mid),var(--high))}
+
+/* Sections */
+section{border-top:1px solid var(--rule);padding:clamp(3rem,7vw,5rem) 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,4rem);margin-bottom:2.5rem}
+.sec-head h2{font-size:var(--step-3);line-height:1.1}
+.sec-head p{color:var(--muted);max-width:60ch;align-self:end}
+.project{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,4rem);padding:2.5rem 0;border-top:1px solid var(--rule)}
+.project:first-of-type{border-top:0;padding-top:0}
+.project h3{font-size:var(--step-2);line-height:1.15}
+.question{margin-top:.75rem;font-size:1.05rem;max-width:42ch}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.75rem 0;padding:0}
+.facts li{list-style:none}
+.facts b{display:block;font:400 var(--step-2)/1.1 var(--display)}
+.facts span{font-size:.82rem;color:var(--muted)}
+.stack{font-size:.88rem;color:var(--muted)}
+.stack a{margin-left:.25rem}
+.status{display:inline-block;font-size:.78rem;border:1px solid var(--brass);color:var(--brass);border-radius:999px;padding:.1rem .6rem;margin-left:.6rem;vertical-align:middle;font-family:var(--text)}
+.panel{background:var(--raised);border:1px solid var(--rule);border-radius:10px;padding:clamp(1rem,2.5vw,1.5rem)}
+.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:1rem;font-size:.9rem}
+select{font:inherit;color:var(--paper);background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:.35rem .6rem}
+svg text{font-family:var(--text);fill:var(--muted);font-size:11px}
+.note{font-size:.8rem;color:var(--muted);margin-top:.75rem}
+
+/* NASA */
+.events{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.event-detail{margin-top:1.25rem;min-height:5.5rem}
+.event-detail h4{margin:0;font:400 var(--step-1)/1.3 var(--display)}
+.event-detail p{margin-top:.35rem}
+
+/* Power4 */
+.p4{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:420px;aspect-ratio:7/6.6;margin:0 auto}
+.p4 button.col{border:0;border-radius:6px;padding:0;display:grid;grid-template-rows:repeat(6,1fr);gap:6px;background:none}
+.p4 button.col:hover .cell:not(.y):not(.b),.p4 button.col:focus-visible .cell:not(.y):not(.b){border-color:var(--brass)}
+.cell{border-radius:50%;border:1px solid var(--rule);background:var(--bg);transition:background .2s}
+.cell.y{background:var(--brass);border-color:var(--brass)}
+.cell.b{background:var(--paper);border-color:var(--paper)}
+.cell.win{box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--brass)}
+.p4-status{text-align:center;margin-top:1rem;min-height:1.6em}
+
+/* Method */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.5rem;padding:0;margin:0;counter-reset:s}
+.steps li{list-style:none;border-top:1px solid var(--brass);padding-top:1rem;counter-increment:s}
+.steps li::before{content:counter(s);font:400 var(--step-2)/1 var(--display);color:var(--brass);display:block;margin-bottom:.6rem}
+.steps b{font-weight:600;display:block}
+.steps span{font-size:.88rem;color:var(--muted)}
+footer{border-top:1px solid var(--rule);padding:3rem 0 4rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem;align-items:end}
+footer h2{font-size:var(--step-2)}
+
+@media (max-width:860px){
+  .hero,.sec-head,.project{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){.facts{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<main>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <h1 class="brand">LELON</h1>
+      <p class="lede">Je transforme des données brutes en réponses lisibles.</p>
+      <p class="who">Kerem Uysal, étudiant en Bachelor IA &amp; Data à Ynov Lyon. Je cherche une alternance de data analyst à partir de septembre 2027.</p>
+      <nav class="links" aria-label="Contact">
+        <a href="mailto:keremuysal19@icloud.com">Écrire un e-mail</a>
+        <a href="https://www.linkedin.com/in/kerem-uysal-0528823a9">LinkedIn</a>
+        <a href="https://github.com/krm3z">GitHub</a>
+      </nav>
+    </div>
+    <figure class="map-box">
+      <svg id="map" viewBox="0 0 600 560" role="img" aria-labelledby="map-title"><title id="map-title">Carte des stations de mesure de la qualité de l'air en France métropolitaine, colorées selon l'indice d'impact à l'heure choisie</title></svg>
+      <div class="tip" id="tip" role="status"></div>
+      <div class="scrub">
+        <button id="play" aria-pressed="false">Lecture</button>
+        <label class="sr" for="hour">Heure affichée</label>
+        <input id="hour" type="range" min="0" value="0" step="1">
+        <output id="hour-out" class="num" for="hour"></output>
+      </div>
+      <figcaption class="caption">
+        <span><span class="num" id="n-st"></span> stations, indice d'impact sur la qualité de l'air, du 26 au 29 mars 2026</span>
+        <span class="legend">faible <i></i> élevé</span>
+      </figcaption>
+    </figure>
+  </header>
+</div>
+
+<section id="projets">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Projets</h2>
+      <p>Chaque projet part d'une question. Les graphiques ci-dessous utilisent les vraies données de mes dépôts.</p>
+    </div>
+
+    <article class="project">
+      <div>
+        <h3>Pollution &amp; météo</h3>
+        <p class="question">Où et quand l'air est-il le plus chargé, une fois le vent pris en compte ?</p>
+        <ul class="facts num">
+          <li><b id="f-raw"></b><span>lignes brutes nettoyées</span></li>
+          <li><b id="f-st"></b><span>stations reliées à la météo</span></li>
+          <li><b>0</b><span>valeur manquante à la fin</span></li>
+        </ul>
+        <p class="stack">Python, pandas, FastAPI. <a href="https://github.com/krm3z/pollution-meteo-data-pipeline">Voir le code</a></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>Indice moyen, toutes stations, heure par heure</span><span class="muted num" id="nat-now"></span></div>
+        <svg id="nat" viewBox="0 0 640 220" role="img" aria-label="Évolution de l'indice moyen d'impact sur quatre jours"></svg>
+        <p class="note">La carte en haut de page suit la même heure. Stations les plus exposées à cette heure : <span id="top"></span>.</p>
+      </div>
+    </article>
+
+    <article class="project">
+      <div>
+        <h3>Régularité des TER <span class="status">en cours</span></h3>
+        <p class="question">Comment évolue la ponctualité des TER depuis 2013, région par région ?</p>
+        <ul class="facts num">
+          <li><b id="f-tr"></b><span>trains programmés</span></li>
+          <li><b>2 380</b><span>lignes mensuelles</span></li>
+          <li><b>14</b><span>années, 2013 à 2026</span></li>
+        </ul>
+        <p class="stack">SQL, SQLite, Power BI. <a href="https://github.com/krm3z/sncf-regularite-ter">Voir le code</a></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <label for="region">Région comparée à la moyenne nationale</label>
+          <select id="region"></select>
+        </div>
+        <svg id="ter" viewBox="0 0 640 260" role="img" aria-label="Taux de régularité annuel des TER"></svg>
+        <p class="note">Régularité : part des trains arrivés à l'heure. Anciennes régions regroupées selon la carte de 2016. Pour 2026, janvier à août.</p>
+      </div>
+    </article>
+
+    <article class="project">
+      <div>
+        <h3>Archives de la NASA</h3>
+        <p class="question">Les publications quotidiennes de la NASA racontent-elles l'histoire de l'exploration spatiale ?</p>
+        <ul class="facts num">
+          <li><b>11 246</b><span>publications analysées</span></li>
+          <li><b>30 ans</b><span>de 1995 à 2026</span></li>
+          <li><b>7</b><span>événements retrouvés</span></li>
+        </ul>
+        <p class="stack">Python, SQL, Power BI. Projet en binôme, j'ai mené l'analyse. <a href="https://github.com/krm3z/nasa-data-pipeline">Voir le code</a></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>Pics de citations dans les titres</span><span class="muted">Choisir une année</span></div>
+        <svg id="nasa" viewBox="0 0 640 120" aria-hidden="true"></svg>
+        <div class="events" id="events" role="group" aria-label="Événements"></div>
+        <div class="event-detail" id="event-detail" aria-live="polite"></div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div>
+        <h3>Power4</h3>
+        <p class="question">Un Puissance 4 dans le navigateur, avec un adversaire qui calcule ses coups.</p>
+        <ul class="facts num">
+          <li><b>4</b><span>niveaux d'adversaire</span></li>
+          <li><b>2</b><span>modes de jeu</span></li>
+          <li><b>18</b><span>commits</span></li>
+        </ul>
+        <p class="stack">Go, HTML, CSS. Version ci-contre réécrite en JavaScript. <a href="https://github.com/krm3z/Power4">Voir le code</a></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <span>Vous jouez en premier (pions dorés)</span>
+          <span><label for="lvl" class="sr">Niveau</label>
+          <select id="lvl"><option value="1">Facile</option><option value="2" selected>Moyen</option><option value="4">Difficile</option><option value="6">Expert</option></select>
+          <button id="p4-reset">Nouvelle partie</button></span>
+        </div>
+        <div class="p4" id="p4" role="group" aria-label="Plateau de Puissance 4"></div>
+        <p class="p4-status" id="p4-status" aria-live="polite">À vous de jouer.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="methode">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Méthode</h2>
+      <p>Les cinq étapes que je suis sur chaque projet, de la source à la décision.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Collecter</b><span>API, open data, fichiers bruts</span></li>
+      <li><b>Nettoyer</b><span>Types, doublons, valeurs manquantes, avec Python et pandas</span></li>
+      <li><b>Modéliser</b><span>Tables et requêtes SQL</span></li>
+      <li><b>Visualiser</b><span>Power BI, Excel, graphiques sur mesure</span></li>
+      <li><b>Décider</b><span>Une réponse claire à la question de départ</span></li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2>Un projet, une alternance, une question ?</h2>
+    <nav class="links" aria-label="Contact">
+      <a href="mailto:keremuysal19@icloud.com">keremuysal19@icloud.com</a>
+      <a href="https://www.linkedin.com/in/kerem-uysal-0528823a9">LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+const fr=n=>n.toLocaleString('fr-FR');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// couleur : vert-gris -> laiton -> rouge brique
+const lerp=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+const C0=[79,106,99],C1=[184,155,114],C2=[201,87,63];
+function color(v){if(v==null)return '#2C2A27';const t=Math.max(0,Math.min(1,(v-12)/(32-12)));const c=t<.5?lerp(C0,C1,t*2):lerp(C1,C2,(t-.5)*2);return `rgb(${c})`}
+function fmtHour(s){const d=new Date(s+':00:00');return d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric'})+' '+String(d.getHours()).padStart(2,'0')+' h'}
+
+fetch('data.json').then(r=>r.json()).then(D=>{
+  const P=D.pollution;
+  document.getElementById('n-st').textContent=P.stations.length;
+  document.getElementById('f-raw').textContent=fr(P.rows_raw);
+  document.getElementById('f-st').textContent=P.tot_sites;
+  document.getElementById('f-tr').textContent=(D.sncf.trains/1e6).toLocaleString('fr-FR',{maximumFractionDigits:1})+' M';
+
+  // ---- Carte
+  const map=document.getElementById('map');
+  const lon0=-5.4,lon1=9.7,lat0=41.3,lat1=51.2,k=Math.cos(46.5*Math.PI/180);
+  const W=600,H=560,sx=(W-40)/((lon1-lon0)*k),sy=(H-40)/(lat1-lat0),s=Math.min(sx,sy);
+  const ox=(W-(lon1-lon0)*k*s)/2, oy=(H-(lat1-lat0)*s)/2;
+  const px=lo=>ox+(lo-lon0)*k*s, py=la=>oy+(lat1-la)*s;
+  const dots=P.stations.map((st,i)=>{const c=el('circle',{cx:px(st.lo).toFixed(1),cy:py(st.la).toFixed(1),r:4.2,fill:color(st.avg)},map);c.dataset.i=i;return c});
+  if(!reduce){dots.forEach(d=>{d.style.opacity=0});const ord=[...dots].sort((a,b)=>a.getAttribute('cy')-b.getAttribute('cy'));ord.forEach((d,i)=>setTimeout(()=>{d.style.transition='opacity .5s, fill .35s';d.style.opacity=1},i*4))}
+  const tip=document.getElementById('tip'),box=map.parentElement;
+  let cur=0;
+  map.addEventListener('pointermove',e=>{
+    const r=map.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;
+    let best=-1,bd=196;dots.forEach((d,i)=>{const dx=d.getAttribute('cx')-x,dy=d.getAttribute('cy')-y,dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=i}});
+    if(best<0){tip.classList.remove('on');return}
+    const st=P.stations[best],v=P.mat[best][cur];
+    tip.innerHTML=`<strong>${st.n}</strong><br>Indice à cette heure : <span class="num">${v==null?'pas de mesure':v.toLocaleString('fr-FR')}</span><br><span class="muted">Météo : ${st.m}, à ${st.km.toLocaleString('fr-FR')} km</span>`;
+    tip.style.left=(dots[best].getAttribute('cx')*r.width/W)+'px';tip.style.top=(dots[best].getAttribute('cy')*r.height/H)+'px';tip.classList.add('on');
+  });
+  map.addEventListener('pointerleave',()=>tip.classList.remove('on'));
+
+  // ---- Courbe nationale
+  const nat=document.getElementById('nat'),nW=640,nH=220,m={l:34,r:12,t:12,b:26};
+  const nmax=Math.ceil(Math.max(...P.nat)+1),nmin=Math.floor(Math.min(...P.nat)-1);
+  const nx=i=>m.l+i*(nW-m.l-m.r)/(P.nat.length-1),ny=v=>m.t+(nmax-v)*(nH-m.t-m.b)/(nmax-nmin);
+  for(let v=nmin;v<=nmax;v+=Math.max(1,Math.round((nmax-nmin)/4))){el('line',{x1:m.l,x2:nW-m.r,y1:ny(v),y2:ny(v),stroke:'#3A3631'},nat);el('text',{x:m.l-8,y:ny(v)+4,'text-anchor':'end'},nat).textContent=v}
+  let lastDay='';P.hours.forEach((h,i)=>{const d=h.slice(0,10);if(d!==lastDay){lastDay=d;el('text',{x:nx(i),y:nH-6},nat).textContent=new Date(h+':00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric'})}});
+  el('path',{d:'M'+P.nat.map((v,i)=>nx(i).toFixed(1)+','+ny(v).toFixed(1)).join('L'),fill:'none',stroke:'#B89B72','stroke-width':2},nat);
+  const cursor=el('line',{y1:m.t,y2:nH-m.b,stroke:'#EDE6DA','stroke-opacity':.5},nat);
+  const cdot=el('circle',{r:4,fill:'#EDE6DA'},nat);
+  nat.addEventListener('pointermove',e=>{const r=nat.getBoundingClientRect(),x=(e.clientX-r.left)*nW/r.width;setHour(Math.max(0,Math.min(P.nat.length-1,Math.round((x-m.l)/((nW-m.l-m.r)/(P.nat.length-1))))))});
+
+  // ---- Heure
+  const range=document.getElementById('hour'),out=document.getElementById('hour-out'),top=document.getElementById('top'),now=document.getElementById('nat-now');
+  range.max=P.hours.length-1;
+  function setHour(i){
+    cur=i;range.value=i;out.textContent=fmtHour(P.hours[i]);
+    dots.forEach((d,j)=>d.setAttribute('fill',color(P.mat[j][i])));
+    cursor.setAttribute('x1',nx(i));cursor.setAttribute('x2',nx(i));cdot.setAttribute('cx',nx(i));cdot.setAttribute('cy',ny(P.nat[i]));
+    now.textContent=fmtHour(P.hours[i])+' : '+P.nat[i].toLocaleString('fr-FR');
+    const t=P.stations.map((s,j)=>[s.n,P.mat[j][i]]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    top.textContent=t.map(x=>`${x[0]} (${x[1].toLocaleString('fr-FR')})`).join(', ');
+  }
+  range.addEventListener('input',()=>setHour(+range.value));
+  const play=document.getElementById('play');let timer=null;
+  play.addEventListener('click',()=>{
+    if(timer){clearInterval(timer);timer=null;play.setAttribute('aria-pressed','false');play.textContent='Lecture';return}
+    play.setAttribute('aria-pressed','true');play.textContent='Pause';
+    timer=setInterval(()=>setHour((cur+1)%P.hours.length),450);
+  });
+  setHour(P.nat.indexOf(Math.max(...P.nat)));
+
+  // ---- TER
+  const S=D.sncf,ter=document.getElementById('ter'),tW=640,tH=260,tm={l:40,r:16,t:16,b:28};
+  const sel=document.getElementById('region');
+  Object.keys(S.regions).sort((a,b)=>a.localeCompare(b,'fr')).forEach(r=>{const o=document.createElement('option');o.value=o.textContent=r;sel.appendChild(o)});
+  sel.value='Auvergne-Rhône-Alpes';
+  const all=Object.values(S.regions).flat().concat(S.nat).filter(v=>v!=null);
+  const tmin=Math.floor(Math.min(...all)),tmax=Math.ceil(Math.max(...all));
+  const tx=i=>tm.l+i*(tW-tm.l-tm.r)/(S.years.length-1),ty=v=>tm.t+(tmax-v)*(tH-tm.t-tm.b)/(tmax-tmin);
+  for(let v=tmin;v<=tmax;v+=2){el('line',{x1:tm.l,x2:tW-tm.r,y1:ty(v),y2:ty(v),stroke:'#3A3631'},ter);el('text',{x:tm.l-8,y:ty(v)+4,'text-anchor':'end'},ter).textContent=v+' %'}
+  S.years.forEach((y,i)=>{if(i%2===0||i===S.years.length-1)el('text',{x:tx(i),y:tH-8,'text-anchor':'middle'},ter).textContent=y});
+  const path=a=>{let d='',pen=false;a.forEach((v,i)=>{if(v==null){pen=false;return}d+=(pen?'L':'M')+tx(i).toFixed(1)+','+ty(v).toFixed(1);pen=true});return d};
+  el('path',{d:path(S.nat),fill:'none',stroke:'#9A8F80','stroke-width':1.5,'stroke-dasharray':'4 4'},ter);
+  const natLbl=el('text',{x:tW-tm.r,y:ty(S.nat.at(-1))+16,'text-anchor':'end'},ter);natLbl.textContent='France';
+  const rl=el('path',{fill:'none',stroke:'#B89B72','stroke-width':2.5},ter);
+  const rDots=el('g',{},ter);
+  const hov=el('g',{opacity:0},ter);el('line',{y1:tm.t,y2:tH-tm.b,stroke:'#EDE6DA','stroke-opacity':.4},hov);
+  const hb=el('rect',{y:tm.t,width:150,height:44,rx:4,fill:'#1A1917',stroke:'#3A3631'},hov);
+  const h1=el('text',{y:tm.t+18,style:'fill:#EDE6DA'},hov),h2=el('text',{y:tm.t+35},hov);
+  function drawRegion(){
+    const a=S.regions[sel.value];rl.setAttribute('d',path(a));rDots.innerHTML='';
+    a.forEach((v,i)=>v!=null&&el('circle',{cx:tx(i),cy:ty(v),r:3,fill:'#B89B72'},rDots));
+  }
+  sel.addEventListener('change',drawRegion);drawRegion();
+  ter.addEventListener('pointermove',e=>{
+    const r=ter.getBoundingClientRect(),x=(e.clientX-r.left)*tW/r.width;
+    const i=Math.max(0,Math.min(S.years.length-1,Math.round((x-tm.l)/((tW-tm.l-tm.r)/(S.years.length-1)))));
+    const v=S.regions[sel.value][i],X=tx(i),bx=X>tW/2?X-160:X+10;
+    hov.firstChild.setAttribute('x1',X);hov.firstChild.setAttribute('x2',X);hb.setAttribute('x',bx);
+    h1.setAttribute('x',bx+10);h2.setAttribute('x',bx+10);
+    h1.textContent=`${S.years[i]} : ${v==null?'—':v.toLocaleString('fr-FR')+' %'}`;h2.textContent=`France : ${S.nat[i].toLocaleString('fr-FR')} %`;
+    hov.setAttribute('opacity',1);
+  });
+  ter.addEventListener('pointerleave',()=>hov.setAttribute('opacity',0));
+
+  // ---- NASA
+  const N=D.nasa,nasa=document.getElementById('nasa'),aW=640,y0=1995,y1=2026;
+  const ax=y=>24+(y-y0)*(aW-48)/(y1-y0);
+  el('line',{x1:ax(y0),x2:ax(y1),y1:80,y2:80,stroke:'#9A8F80'},nasa);
+  [1995,2000,2005,2010,2015,2020,2026].forEach(y=>{el('line',{x1:ax(y),x2:ax(y),y1:76,y2:84,stroke:'#9A8F80'},nasa);el('text',{x:ax(y),y:104,'text-anchor':'middle'},nasa).textContent=y});
+  const evG=N.events.map(ev=>{const h=ev.count?ev.count*2.6:22;return el('rect',{x:ax(ev.y)-5,y:80-h,width:10,height:h,rx:2,fill:'#3A3631'},nasa)});
+  const evBox=document.getElementById('events'),det=document.getElementById('event-detail');
+  const btns=N.events.map((ev,i)=>{const b=document.createElement('button');b.textContent=ev.y+', '+ev.mission;b.setAttribute('aria-pressed','false');b.onclick=()=>pick(i);evBox.appendChild(b);return b});
+  function pick(i){const ev=N.events[i];btns.forEach((b,j)=>b.setAttribute('aria-pressed',i===j));evG.forEach((r,j)=>r.setAttribute('fill',i===j?'#B89B72':'#3A3631'));
+    det.innerHTML=`<h4>${ev.real}</h4><p class="muted">${ev.kind}. Dans les données : ${ev.detail}.</p>`}
+  pick(3);
+}).catch(()=>{document.getElementById('map').insertAdjacentHTML('afterend','<p class="note">Les données n\'ont pas pu être chargées. Rechargez la page.</p>')});
+
+// ---- Puissance 4
+(function(){
+  const R=6,C=7,boardEl=document.getElementById('p4'),status=document.getElementById('p4-status'),lvl=document.getElementById('lvl');
+  let b,over,busy;const cols=[];
+  for(let c=0;c<C;c++){const btn=document.createElement('button');btn.className='col';btn.setAttribute('aria-label','Jouer dans la colonne '+(c+1));
+    for(let r=0;r<R;r++){const d=document.createElement('span');d.className='cell';btn.appendChild(d)}btn.onclick=()=>human(c);boardEl.appendChild(btn);cols.push(btn)}
+  const cell=(r,c)=>cols[c].children[r];
+  function reset(){b=Array.from({length:R},()=>Array(C).fill(0));over=false;busy=false;render();status.textContent='À vous de jouer.'}
+  function render(w=[]){for(let r=0;r<R;r++)for(let c=0;c<C;c++){const e=cell(r,c);e.className='cell'+(b[r][c]===1?' y':b[r][c]===2?' b':'')+(w.some(p=>p[0]===r&&p[1]===c)?' win':'')}}
+  const drop=(g,c,p)=>{for(let r=R-1;r>=0;r--)if(!g[r][c]){g[r][c]=p;return r}return -1};
+  const valid=g=>[3,2,4,1,5,0,6].filter(c=>!g[0][c]);
+  function win(g,p){const D=[[0,1],[1,0],[1,1],[1,-1]];for(let r=0;r<R;r++)for(let c=0;c<C;c++)for(const[dr,dc]of D){const line=[];for(let k=0;k<4;k++){const rr=r+dr*k,cc=c+dc*k;if(rr<0||rr>=R||cc<0||cc>=C||g[rr][cc]!==p)break;line.push([rr,cc])}if(line.length===4)return line}return null}
+  function score(g){let s=0;const w=a=>{const me=a.filter(x=>x===2).length,op=a.filter(x=>x===1).length,e=a.filter(x=>!x).length;if(me===3&&e===1)s+=5;else if(me===2&&e===2)s+=2;if(op===3&&e===1)s-=4};
+    for(let r=0;r<R;r++)s+=g[r][3]===2?3:0;
+    for(let r=0;r<R;r++)for(let c=0;c<C;c++){if(c<=3)w([0,1,2,3].map(k=>g[r][c+k]));if(r<=2)w([0,1,2,3].map(k=>g[r+k][c]));if(r<=2&&c<=3)w([0,1,2,3].map(k=>g[r+k][c+k]));if(r<=2&&c>=3)w([0,1,2,3].map(k=>g[r+k][c-k]))}return s}
+  function mm(g,d,a,be,max){const v=valid(g);if(win(g,2))return[null,1e6+d];if(win(g,1))return[null,-1e6-d];if(!v.length)return[null,0];if(!d)return[null,score(g)];
+    let best=v[0],val=max?-Infinity:Infinity;for(const c of v){const r=drop(g,c,max?2:1);const s=mm(g,d-1,a,be,!max)[1];g[r][c]=0;
+      if(max?s>val:s<val){val=s;best=c}if(max)a=Math.max(a,val);else be=Math.min(be,val);if(a>=be)break}return[best,val]}
+  function end(){const w1=win(b,1),w2=win(b,2);if(w1||w2){over=true;render(w1||w2);status.textContent=w1?'Vous avez gagné.':"L'ordinateur a gagné.";return true}
+    if(!valid(b).length){over=true;status.textContent='Match nul.';return true}return false}
+  function human(c){if(over||busy||b[0][c])return;drop(b,c,1);render();if(end())return;busy=true;status.textContent="L'ordinateur réfléchit…";
+    setTimeout(()=>{const d=+lvl.value;let c2=d===1&&Math.random()<.5?valid(b)[Math.floor(Math.random()*valid(b).length)]:mm(b,d,-Infinity,Infinity,true)[0];drop(b,c2,2);render();busy=false;if(!end())status.textContent='À vous de jouer.'},250)}
+  document.getElementById('p4-reset').onclick=reset;lvl.onchange=reset;reset();
+})();
+</script>
+</body>
+</html>
